@@ -1,32 +1,13 @@
 // Wait for the DOM to be fully loaded before running any script
 document.addEventListener("DOMContentLoaded", () => {
     // Check if old bookmarks exist and migrate them to preset 1
-    if (!localStorage.getItem('bookmarksMigrated')) {
-        // Migrate bookmarks if they exist
-        if (localStorage.getItem('bookmarks')) {
-            const oldBookmarks = JSON.parse(localStorage.getItem('bookmarks'));
-            localStorage.setItem('bookmarks_preset1', JSON.stringify(oldBookmarks));
-            localStorage.removeItem('bookmarks');  // Remove old bookmarks
-            console.log("Old bookmarks have been migrated to preset 1.");
-        }
-        // Set flag so migration doesn't happen again
-        localStorage.setItem('bookmarksMigrated', 'true');
+    if (localStorage.getItem('bookmarks')) {
+        const oldBookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+        localStorage.setItem('bookmarks_preset1', JSON.stringify(oldBookmarks));
+        localStorage.removeItem('bookmarks');  // Remove old bookmarks
+        console.log("Old bookmarks have been migrated to preset 1.");
     }
-    
 
-    // let scroll = new LocomotiveScroll({
-    //     el: document.querySelector('[data-scroll-container]'),
-    //     smooth: true,
-    //     multiplier: .9,
-    //     smartphone: {
-    //         smooth: true
-    //     },
-    //     tablet: {
-    //         smooth: true
-    //     }
-    // });
-
-    // scroll.update()
     // Set the current preset to 'preset1' by default
     currentPreset = "preset1";
 
@@ -201,7 +182,7 @@ closeModalButtons.forEach(btn => {
         modalValueInput.value = "";
         modalNameInput.value = "";
         modalLinkInput.value = "";
-        modalTextColorInput.value = "white";
+        modalTextColorInput.value = "black";
     });
 });
 
@@ -209,7 +190,7 @@ modalAddBtn.addEventListener("click", () => {
     const value = modalValueInput.value;
     const name = modalNameInput.value;
     const link = modalLinkInput.value;
-    const textColor = modalTextColorInput.value || "white";
+    const textColor = modalTextColorInput.value || "black";
 
     if (!value || !name || !link) {
         alert("Please fill all the fields.");
@@ -233,7 +214,7 @@ modalAddBtn.addEventListener("click", () => {
     modalValueInput.value = "";
     modalNameInput.value = "";
     modalLinkInput.value = "";
-    modalTextColorInput.value = "white";
+    modalTextColorInput.value = "black";
     editIndex = null;
 });
 
@@ -256,7 +237,7 @@ function saveBookmarks(bookmarks) {
     localStorage.setItem(`bookmarks_${currentPreset}`, JSON.stringify(bookmarks));
 }
 
-function createCard(type, value, name, link, textColor = 'white') {
+function createCard(type, value, name, link, textColor = 'black') {
     const cardLink = document.createElement('a');
     cardLink.target = '_blank';
     cardLink.className = 'card-link';
@@ -382,7 +363,7 @@ bSearchInput.addEventListener('input', () => {
 
     cards.forEach(card => {
         const cardText = card.querySelector('.text').textContent.toLowerCase();
-        card.parentElement.style.display = cardText.includes(searchTerm) ? '' : 'none';
+        card.style.display = cardText.includes(searchTerm) ? '' : 'none';
     });
 });
 
